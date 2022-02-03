@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  api:
+    container_name: api
+    build:
+      context: ./api
+    env_file: ./api/.env
+    ports:
+      - "3000:3000"
+    networks:
+      - mevn-dockerized
+    command: ["npm", "start"]
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    networks:
+      - mevn-dockerized
+  server:
+    container_name: static
+    build:
+      context: ./client
+    ports:
+      - "8080:8080"
+    command: yarn run start
+
+networks:
+  mevn-dockerized:
